@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include("./partials/head") %>
+  <title>Blogpage</title>
+</head>
+
+<body>
+  <%- include("./partials/nav") %>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8 col-lg-10">
+      <h1><%= blog.title %></h1>
+      <img src="<%= blog.coverImageURL %>" width="700px" alt="">
+      <p><%= blog.body %></p>
+    </div>
+  </div>
+
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8 col-lg-10">
+      <img src="<%= blog.createdBy.profileImageURL %>" width="50px" alt=""> <%= blog.createdBy.fullName %>
+    </div>
+  </div>
+
+  <!-- <div class="container mt-3">
+    <h5>Comments</h5>
+
+    <form action="/blog/comment/<%= blog._id %>" method="post">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="content" id="content" placeholder="Enter Your Comment">
+        <label>Enter Your Comment</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div> -->
+
+
+  <div class="row d-flex justify-content-center mt-4">
+    <div class="col-md-8 col-lg-10">
+      <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+        <div class="card-body p-2">
+          <% if (locals.user) { %>
+
+          <form action="/blog/comment/<%= blog._id %>" method="post">
+            <div data-mdb-input-init class="form-outline mb-4">
+              <input type="text" name="content" id="content" class="form-control" placeholder="Type comment..." />
+              <label class="form-label" for="addANote">+ Add a note</label>
+            </div>
+          </form>
+
+          <% } %>
+
+
+          <h4>Comments <% if (locals.comments.length > 0) { %> (<%= comments.length %>) <% } %></h4>
+
+          <div class="card mb-4">
+            <div class="card-body">
+              <% if (locals.comments.indexOf(locals.comments[0]) === -1) { %>
+
+              <p>Type your note, and hit enter to add it</p>
+
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-row align-items-center">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar" width="25" height="25" />
+                  <p class="small mb-0 ms-2">Martha</p>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                  <p class="small text-muted mb-0">Upvote?</p>
+                  <i class="far fa-thumbs-up mx-2 fa-xs text-body" style="margin-top: -0.16rem;"></i>
+                  <p class="small text-muted mb-0">3</p>
+                </div>
+              </div>
+              <% } %>
+              <% if (locals.comments.length > 0) { %>
+
+              <% comments.forEach(comment => { %>
+              <div class="card">
+                <div class="card-body">
+
+                  <p><%= comment.content %></p>
+                  <div class="d-flex justify-content-between">
+
+                    <div class="d-flex flex-row align-items-center">
+                      <img src="<%= comment.createdBy.profileImageURL %>" alt="avatar" width="25" height="25" />
+                      <p class="small mb-0 ms-2"><%= comment.createdBy.fullName %></p>
+                    </div>
+
+                    <!-- <div class="d-flex flex-row align-items-center"> -->
+                    <!-- <p class="small text-muted mb-0">Upvote?</p> -->
+                    <!-- <i class="far fa-thumbs-up mx-2 fa-xs text-body" style="margin-top: -0.16rem;"></i> -->
+                    <!-- <p class="small text-muted mb-0">3</p> -->
+                    <!-- </div> -->
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+              <% } %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include("./partials/script") %>
+</body>
+
+</html>
